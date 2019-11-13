@@ -9,5 +9,7 @@ package main
 import "fmt"
 
 func main(){
-  fmt.Println("Hello Golang World!")
+	fmt.Print("Hello ")
+	fmt.Printf("Golang ")
+	fmt.Println("World!")
 }
