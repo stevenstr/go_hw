@@ -1,7 +1,7 @@
 /*
  *Author: Stefan
  *Date: 11/13/2019
- *Task
+ *Task: Implement the following methods: End - defines the end of the shape, Perimiter, Area
 **/
 
 package main
@@ -27,17 +27,17 @@ func (p *Square) End() (int, int) {
 }
 
 //Perimeter method
-func (p *Square) Perimeter() uint { //
-	return p.a * uint(4) //
+func (p *Square) Perimeter() uint {
+	return p.a * uint(4)
 }
 
 //Area method
-func (p *Square) Area() uint { /**/
+func (p *Square) Area() uint {
 	return (p.a * p.a)
 }
 
 func main() {
-	s := Square{Point{3, -3}, 5}
+	s := Square{Point{1, 1}, 5}
 	fmt.Println(s.End())
 	fmt.Println(s.Perimeter())
 	fmt.Println(s.Area())
