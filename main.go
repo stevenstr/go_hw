@@ -1,6 +1,7 @@
 /*
  *Author: Stefan
  *Date: 11/16/2019
+ *Last changes: 11/17/2019
  *Task: Implement the following methods: End - defines the end of the shape, Perimiter, Area
 **/
 
@@ -28,12 +29,12 @@ func (p *Square) End() (int, int) {
 
 //Perimeter method
 func (p *Square) Perimeter() uint {
-	return p.a * uint(4)
+	return p.a * 4 // p.a * uint(4)
 }
 
 //Area method
 func (p *Square) Area() uint {
-	return (p.a * p.a)
+	return p.a * p.a // (p.a * p.a)
 }
 
 func main() {
