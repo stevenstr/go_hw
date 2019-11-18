@@ -1,7 +1,7 @@
 /*
  *Author: Stefan
  *Date: 11/16/2019
- *Last changes: 11/18/2019 00.36
+ *Last changes: 11/18/2019 15.09
  *Task: Implement the following methods: End - defines the end of the shape, Perimiter, Area
 **/
 
@@ -21,10 +21,12 @@ type Square struct {
 }
 
 //End method
-func (p *Square) End() Point { //The old version - func (p *Square) End() (int, int) {
+func (p *Square) End() (q Point) { //  func (p *Square) End() Point {
 	var xend = p.start.x + int(p.a) //	var xend = p.start.x + int(p.a)
 	var yend = p.start.y - int(p.a) //	var yend = p.start.y - int(p.a)
-	return Point{xend, yend}        //	return xend, yend
+	q.x = xend
+	q.y = yend
+	return q //	return Point{xend, yend}
 }
 
 //Perimeter method
