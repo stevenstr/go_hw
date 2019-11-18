@@ -22,11 +22,9 @@ type Square struct {
 
 //End method
 func (p *Square) End() (q Point) { //  func (p *Square) End() Point {
-	var xend = p.start.x + int(p.a) //	var xend = p.start.x + int(p.a)
-	var yend = p.start.y - int(p.a) //	var yend = p.start.y - int(p.a)
-	q.x = xend
-	q.y = yend
-	return q //	return Point{xend, yend}
+	q.x = p.start.x + int(p.a) //	var xend = p.start.x + int(p.a)
+	q.y = p.start.y - int(p.a) //	var yend = p.start.y - int(p.a)
+	return q                   //	return Point{xend, yend}
 }
 
 //Perimeter method
