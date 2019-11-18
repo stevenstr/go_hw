@@ -1,7 +1,7 @@
 /*
  *Author: Stefan
  *Date: 11/16/2019
- *Last changes: 11/18/2019 15.09
+ *Last changes: 11/18/2019 17.42
  *Task: Implement the following methods: End - defines the end of the shape, Perimiter, Area
 **/
 
