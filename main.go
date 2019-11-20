@@ -1,7 +1,7 @@
 /*
  *Author: Stefan
  *Date: 11/20/2019
- *Last changes: 11/20/2019 13.11
+ *Last changes: 11/20/2019 15.10
  *Task: Write max([]string) string function that returns the longest word from the slice of strings (the first if there are more than one).
  *			Input -> ("one", "two", "three")
  *			Output -> ("three")
@@ -28,5 +28,7 @@ func max(sl []string) string {
 
 func main() {
 	var sl = []string{"one", "two", "three", "lesha", "ivan"}
+	fmt.Println(max(sl))
+	sl = []string{"one", "two"}
 	fmt.Println(max(sl))
 }
