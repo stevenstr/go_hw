@@ -1,32 +1,38 @@
 /*
  *Author: Stefan
  *Date: 11/20/2019
- *Last changes: 11/20/2019 13.11
- *Task: Write max([]string) string function that returns the longest word from the slice of strings (the first if there are more than one).
- *			Input -> ("one", "two", "three")
- *			Output -> ("three")
+ *Last changes: 11/20/2019 13.45
+ *Task: Write reverse([]int64) []int64 function that returns the copy of the original slice in reverse order. The type of elements is int64.
+ *						Input -> (1, 2, 5, 15)
+ *						Output -> (15, 5, 2, 1)
 **/
 
 package main
 
 import "fmt"
 
-func max(sl []string) string {
-	var length int = 0
-	var N = len(sl)
-	var result string = ""
+//reverse function
+func reverse(sl []int64) []int64 {
+	var n = len(sl)
+	var c = cap(sl)
+	//Just make copy with original len and cap
+	var cpSl = make([]int64, n, c)
 
-	// if there are several elements of the same length, then it will return the first
-	for i := 0; i < N; i++ {
-		if len(sl[i]) > length {
-			length = len(sl[i])
-			result = sl[i]
-		}
+	var start = 0
+	var end = n - 1
+	//Just  do it
+	for i := n - 1; i >= 0; i-- {
+		cpSl[start] = sl[end]
+		start++
+		end--
 	}
-	return result
+	return cpSl
 }
 
 func main() {
-	var sl = []string{"one", "two", "three", "lesha", "ivan"}
-	fmt.Println(max(sl))
+	var sl = []int64{1, 2, 5, 15, 20, 33, 1}
+
+	fmt.Println("original: ", sl)
+	fmt.Println()
+	fmt.Println("reversed: ", reverse(sl))
 }
