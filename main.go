@@ -1,24 +1,32 @@
 /*
  *Author: Stefan
  *Date: 11/20/2019
- *Last changes: 11/20/2019 12.50
- *Task: Implement average([]int) float64 function that returns an average value of slice (sum / N)
+ *Last changes: 11/20/2019 13.11
+ *Task: Write max([]string) string function that returns the longest word from the slice of strings (the first if there are more than one).
+ *			Input -> ("one", "two", "three")
+ *			Output -> ("three")
 **/
 
 package main
 
 import "fmt"
 
-func average(sl []int) float64 {
-	var N int = len(sl)
-	var sum int = 0
+func max(sl []string) string {
+	var length int = 0
+	var N = len(sl)
+	var result string = ""
+
+	// if there are several elements of the same length, then it will return the first
 	for i := 0; i < N; i++ {
-		sum += sl[i]
+		if len(sl[i]) > length {
+			length = len(sl[i])
+			result = sl[i]
+		}
 	}
-	return float64(sum) / float64(N)
+	return result
 }
 
 func main() {
-	var sl = []int{1, 2, 3, 4, 5, 6}
-	fmt.Println(average(sl))
+	var sl = []string{"one", "two", "three", "lesha", "ivan"}
+	fmt.Println(max(sl))
 }
