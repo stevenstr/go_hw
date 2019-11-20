@@ -11,7 +11,7 @@ import "fmt"
 
 func average(sl []int) float64 {
 	var N int = len(sl)
-	var sum int = 0
+	var sum int //var sum int = 0
 	for i := 0; i < N; i++ {
 		sum += sl[i]
 	}
