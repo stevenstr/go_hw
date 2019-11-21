@@ -15,14 +15,11 @@ import (
 )
 
 func max(sl []string) string {
-	//var length int = 0 //var length int = 0
 	var N = len(sl)
 	var result string //var result string = ""
-
 	// if there are several elements of the same length, then it will return the first
 	for i := 0; i < N; i++ {
 		if utf8.RuneCountInString(sl[i]) > utf8.RuneCountInString(result) {
-			//length = len(sl[i])
 			result = sl[i]
 		}
 	}
