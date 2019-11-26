@@ -1,22 +1,17 @@
 /*
  *Author: Stefan
  *Date: 11/24/2019
- *Last changes: 11/26/2019 13.20
+ *Last changes: 11/26/2019 15.10
  *Task: Implement a HelloWorld program that will print a smiley us
 party dependency (https://github.com/kyokomi/emoji).
 **/
 
 package main
 
-import (
-	"fmt"
+import "github.com/kyokomi/emoji"
 
-	"github.com/kyokomi/emoji"
-)
+package main
 
 func main() {
-	_, err := emoji.Println(" :beer: :smile: :beer: :smile: :beer: :smile:")
-	if err != nil {
-		fmt.Println(err)
-	}
+	emoji.Println("Hello world :smile:!")
 }
