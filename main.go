@@ -1,11 +1,12 @@
-/*
+/**
  *Author: Stefan
- *Date: 11/20/2019
- *Last changes: 11/20/2019 15.05
- *Task: Implement printSorted(map[int]string) function that prints map values sorted in order of increasing keys.
- *					Input -> {2: "a", 0: "b", 1: "c"}
- *					Output -> ["b", "c", "a"]
-**/
+ *Date: 11/24/2019
+ *Last changes: 11/26/2019 10.23
+ *Task: Implement sort.Interface interface for People type.
+ *				Sort people in order of increasing age.
+ *				If two people have the same age - sort them by name.
+ *				Add test cases.
+ */
 
 package main
 
@@ -26,10 +27,12 @@ type Person struct {
 //People struct
 type People []Person
 
+//Len method
 func (p People) Len() int {
 	return len(p)
 }
 
+//Less method
 func (p People) Less(i, j int) bool {
 
 	if p[i].birthDay.Sub(p[j].birthDay) > 0 {
@@ -43,11 +46,13 @@ func (p People) Less(i, j int) bool {
 	}
 	return p[i].lastName < p[j].lastName
 }
+
+//Swap method
 func (p People) Swap(i, j int) {
 	p[i], p[j] = p[j], p[i]
 }
 
-//Interface interface
+//Interface interface which implement some methods from gplang.org/pkg
 type Interface interface {
 	// Len is the number of elements in the collection.
 	Len() int
@@ -74,7 +79,7 @@ func main() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-
+	//create array of test data
 	p := People{
 		{"Ivan", "Ivanov", ivanIvanovDate1},
 		{"Ivan", "Ivanov", ivanIvanovDate2},
