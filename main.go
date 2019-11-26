@@ -1,31 +1,64 @@
 /*
  *Author: Stefan
- *Date: 11/16/2019
- *Task: Home work 2.1 Implement - func factorial(i uint) uint - function without using recursion
- *Examples: Factorial(0) = 1; For enother: Factorial(3) = 1 * 2 * 3 = 6; Factorial(5) = 1 * 2 * 3 * 4 * 5 = 120;
+ *Date: 11/24/2019
+ *Last changes: 11/26/2019 11.10
+ *Task: Implement Square and Circle structures which implements
+		Figure interface.
+		Add test cases for Perimeter / Area calculation.
 **/
 
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
-func factorial(i uint) uint {
+//Square struct
+type Square struct {
+	a float64
+}
 
-	if i == 0 {
-		return 1
-	}
+//Circle Struct
+type Circle struct {
+	radius float64
+}
 
-	var result uint = 1
-	var a uint = 2
+//area method for Circle
+func (c Circle) area() float64 {
+	return math.Pi * math.Pow(c.radius, 2)
+}
 
-	for a <= i {
-		result *= a
-		a++
-	}
+//perimeter method for Circle
+func (c Circle) perimeter() float64 {
+	return 2 * math.Pi * c.radius
+}
 
-	return result
+//perimeter method for Square
+func (p Square) perimeter() float64 {
+	return p.a * 4
+}
+
+//area method for Square
+func (p Square) area() float64 {
+	return math.Pow(p.a, 2)
+}
+
+//Figure interface
+type Figure interface {
+	area() float64
+	perimeter() float64
 }
 
 func main() {
-	fmt.Println(factorial(5))
+	//some test data
+	var s Figure = Square{5}
+	var c Figure = Circle{3}
+	fmt.Println(s.area(), s.perimeter())
+	fmt.Println(c.area(), c.perimeter())
+
+	s = Square{7}
+	c = Circle{2}
+	fmt.Println(s.area(), s.perimeter())
+	fmt.Println(c.area(), c.perimeter())
 }
