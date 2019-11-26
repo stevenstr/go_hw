@@ -11,29 +11,79 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"sort"
+	"time"
 )
 
-//printSorted function
-func printSorted(m map[int]string) {
+//Person struct
+type Person struct {
+	firstName string
+	lastName  string
+	birthDay  time.Time
+}
 
-	var sl []int
+//People struct
+type People []Person
 
-	for i := range m {
-		sl = append(sl, i)
+func (p People) Len() int {
+	return len(p)
+}
+
+func (p People) Less(i, j int) bool {
+
+	if p[i].birthDay.Sub(p[j].birthDay) > 0 {
+		return true
+	} else if p[i].birthDay.Sub(p[j].birthDay) < 0 {
+		return false
+	} else if p[i].firstName < p[j].firstName {
+		return true
+	} else if p[i].firstName > p[j].firstName {
+		return false
 	}
-	//Is the easiest way to do it
-	sort.Ints(sl)
+	return p[i].lastName < p[j].lastName
+}
+func (p People) Swap(i, j int) {
+	p[i], p[j] = p[j], p[i]
+}
 
-	for _, i := range sl {
-		fmt.Print(m[i], " ")
-	}
-	fmt.Println()
+//Interface interface
+type Interface interface {
+	// Len is the number of elements in the collection.
+	Len() int
+	// Less reports whether the element with
+	// index i should sort before the element with index j.
+	Less(i, j int) bool
+	// Swap swaps the elements with indexes i and j.
+	Swap(i, j int)
 }
 
 func main() {
-	m := map[int]string{2: "a", 0: "b", 1: "c", 5: "g"}
-	printSorted(m)
-	m = map[int]string{10: "aa", 0: "bb", 500: "cc"}
-	printSorted(m)
+	ivanIvanovDate1, err := time.Parse("2006-Jan-02", "2005-Aug-10")
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	ivanIvanovDate2, err := time.Parse("2006-Jan-02", "2003-Aug-05")
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	artiomIvanovDate, err := time.Parse("2006-Jan-02", "2005-Aug-10")
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	p := People{
+		{"Ivan", "Ivanov", ivanIvanovDate1},
+		{"Ivan", "Ivanov", ivanIvanovDate2},
+		{"Artiom", "Ivanov", artiomIvanovDate},
+	}
+
+	sort.Sort(p)
+
+	for _, q := range p {
+		fmt.Println(q.firstName, q.lastName, q.birthDay)
+	}
 }
