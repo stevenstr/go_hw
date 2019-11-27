@@ -10,8 +10,6 @@ package main
 
 import "github.com/kyokomi/emoji"
 
-package main
-
 func main() {
 	emoji.Println("Hello world :smile:!")
 }
