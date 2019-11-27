@@ -1,7 +1,7 @@
 /**
  *Author: Stefan
  *Date: 11/24/2019
- *Last changes: 11/26/2019 10.23
+ *Last changes: 11/27/2019 17.50
  *Task: Implement sort.Interface interface for People type.
  *				Sort people in order of increasing age.
  *				If two people have the same age - sort them by name.
@@ -37,11 +37,14 @@ func (p People) Less(i, j int) bool {
 
 	if p[i].birthDay.Sub(p[j].birthDay) > 0 {
 		return true
-	} else if p[i].birthDay.Sub(p[j].birthDay) < 0 {
+	}
+	if p[i].birthDay.Sub(p[j].birthDay) < 0 {
 		return false
-	} else if p[i].firstName < p[j].firstName {
+	}
+	if p[i].firstName < p[j].firstName {
 		return true
-	} else if p[i].firstName > p[j].firstName {
+	}
+	if p[i].firstName > p[j].firstName {
 		return false
 	}
 	return p[i].lastName < p[j].lastName
@@ -50,17 +53,6 @@ func (p People) Less(i, j int) bool {
 //Swap method
 func (p People) Swap(i, j int) {
 	p[i], p[j] = p[j], p[i]
-}
-
-//Interface interface which implement some methods from gplang.org/pkg
-type Interface interface {
-	// Len is the number of elements in the collection.
-	Len() int
-	// Less reports whether the element with
-	// index i should sort before the element with index j.
-	Less(i, j int) bool
-	// Swap swaps the elements with indexes i and j.
-	Swap(i, j int)
 }
 
 func main() {
