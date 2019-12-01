@@ -2,7 +2,7 @@
  *Author: Stefan
  *Date: 11/27/2019
  *Last changes: 11/30/2019 20.20
- *Task: Some tests for converter.go
+ *Task: Some tests for converter which use an Atoi. And benchmark
  */
 
 package converter
@@ -23,7 +23,7 @@ func TestDoneConvert(t *testing.T) {
 
 //TestMixedConvert function, if the string consist of symbols and numbers
 func TestMixedConvert(t *testing.T) {
-	result, err := MyStrToIntAtoi("12s34a")
+	result, err := MyStrToIntAtoi("j12s34a")
 
 	assert.Equal(t, result, 0, "should be equal")
 	assert.Error(t, err, "should be error")
