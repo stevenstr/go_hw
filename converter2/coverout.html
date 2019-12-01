@@ -54,7 +54,7 @@
 			<div id="nav">
 				<select id="files">
 				
-				<option value="file0">github.com/stevenstr/converter/converter_atoi.go (100.0%)</option>
+				<option value="file0">github.com/stevenstr/converter2/converter_sscanf.go (100.0%)</option>
 				
 				</select>
 			</div>
@@ -77,13 +77,14 @@
                 ● Cover it with tests
 */
 
-package converter
+package converter2
 
-import "strconv"
+import "fmt"
 
-//MyStrToIntAtoi func
-func MyStrToIntAtoi(s string) (int, error) <span class="cov8" title="1">{
-        if v, err := strconv.Atoi(s); err == nil </span><span class="cov8" title="1">{
+//MyStrToIntSscanf func
+func MyStrToIntSscanf(s string) (int, error) <span class="cov8" title="1">{
+        var a int
+        if v, err := fmt.Sscanf(s, "%d", &amp;a); err == nil </span><span class="cov8" title="1">{
                 return v, nil
         }</span> else<span class="cov8" title="1"> {
                 return 0, err

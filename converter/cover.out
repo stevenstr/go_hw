@@ -1,4 +1,4 @@
 mode: set
-github.com/stevenstr/converter/converter.go:6.40,7.43 1 1
-github.com/stevenstr/converter/converter.go:7.43,9.3 1 1
-github.com/stevenstr/converter/converter.go:9.8,11.3 1 1
+github.com/stevenstr/converter/converter_atoi.go:15.44,16.43 1 1
+github.com/stevenstr/converter/converter_atoi.go:16.43,18.3 1 1
+github.com/stevenstr/converter/converter_atoi.go:18.8,20.3 1 1
