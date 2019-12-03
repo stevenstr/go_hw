@@ -39,7 +39,7 @@ func TestEmptyConvert(t *testing.T) {
 
 //TestOverBuffConvert function, if the stryng can't be coverted
 func TestOverBuffConvert(t *testing.T) {
-	result, err := MyStrToInt("999999999999999999999999999999999999999999")
+	result, err := MyStrToInt("99999999999999999999999999999999999955")
 
 	assert.Equal(t, result, 0, "should be equal")
 	assert.Error(t, err, "should be error")
