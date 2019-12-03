@@ -39,9 +39,9 @@ func TestEmptyConvert(t *testing.T) {
 
 //TestOverBuffConvert function, if the stryng can't be coverted
 func TestOverBuffConvert(t *testing.T) {
-	result, err := MyStrToIntAtoi("999999999999999999999999999999999999999999")
+	result, err := MyStrToIntAtoi("99999999999999999999999999999999999999954564564569")
 
-	assert.Equal(t, result, 0, "should be equal")
+	assert.Equal(t, result, 9223372036854775807, "should be error")
 	assert.Error(t, err, "should be error")
 }
 
