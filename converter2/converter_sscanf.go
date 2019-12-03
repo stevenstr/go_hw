@@ -15,9 +15,5 @@ import "fmt"
 func MyStrToIntSscanf(s string) (int, error) {
 	var a int
 	_, err := fmt.Sscanf(s, "%d", &a)
-	if err == nil {
-		return a, nil
-	} else {
-		return 0, err
-	}
+	return a, err
 }
