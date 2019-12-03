@@ -41,6 +41,6 @@ func TestEmptyConvert(t *testing.T) {
 func TestOverBuffConvert(t *testing.T) {
 	result, err := MyStrToInt("99999999999999999999999999999999999955")
 
-	assert.Equal(t, result, 0, "should be equal")
+	assert.Equal(t, result, 9223372036854775807, "should be equal")
 	assert.Error(t, err, "should be error")
 }
