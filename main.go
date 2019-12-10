@@ -16,11 +16,10 @@ import (
 
 //Response struct
 type Response struct {
-	Host       string `json:"host"`
-	UserAgent  string `json:"user_agent"`
-	RequestURI string `json:"request_uri"`
-	HeaderU    string `json:"headers"`
-	HeaderA    string `json:"Accept"`
+	Host       string      `json:"host"`
+	UserAgent  string      `json:"user_agent"`
+	RequestURI string      `json:"request_uri"`
+	Headers    http.Header `json:"headers"`
 }
 
 func jsonHandler(w http.ResponseWriter, r *http.Request) {
@@ -29,22 +28,27 @@ func jsonHandler(w http.ResponseWriter, r *http.Request) {
 	p := &Response{
 		Host:       r.Host,
 		UserAgent:  r.UserAgent(),
-		RequestURI: r.URL.String(),
-		HeaderU:    r.Header.Get("User-Agent"),
-		HeaderA:    r.Header.Get("Accept"),
+		RequestURI: r.RequestURI,
+		Headers:    r.Header,
 	}
 
-	fmt.Fprintln(w, *p)
+	fmt.Fprintln(w, p)
 
 	fmt.Fprintln(w)
 	fmt.Fprintln(w, "Good readability: ")
 	fmt.Fprintln(w)
-
+	fmt.Fprintln(w, "Host: ")
 	json.NewEncoder(w).Encode(p.Host)
+	fmt.Fprintln(w, "User_Agent")
 	json.NewEncoder(w).Encode(p.UserAgent)
+	fmt.Fprintln(w, "Request_URI")
 	json.NewEncoder(w).Encode(p.RequestURI)
-	json.NewEncoder(w).Encode(p.HeaderU)
-	json.NewEncoder(w).Encode(p.HeaderA)
+	fmt.Fprintln(w, "Headers")
+	json.NewEncoder(w).Encode(p.Headers)
+	fmt.Fprintln(w, "HeadersAccept: ")
+	json.NewEncoder(w).Encode(p.Headers.Get("Accept"))
+	fmt.Fprintln(w, "User-Agent")
+	json.NewEncoder(w).Encode(p.Headers.Get("User-Agent"))
 }
 
 func main() {
