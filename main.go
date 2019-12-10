@@ -1,8 +1,8 @@
 /**
  *Author: Stefan
  *Date: 12/10/2019
- *Last changes: 12/11/2019 01.05
- *Task:
+ *Last changes: 12/11/2019 01.19
+ *Task: Web server handling any request to it’s address and returning JSON like:
  */
 
 package main
@@ -34,16 +34,17 @@ func jsonHandler(w http.ResponseWriter, r *http.Request) {
 		HeaderA:    r.Header.Get("Accept"),
 	}
 
+	fmt.Fprintln(w, *p)
+
+	fmt.Fprintln(w)
+	fmt.Fprintln(w, "Good readability: ")
+	fmt.Fprintln(w)
+
 	json.NewEncoder(w).Encode(p.Host)
-	fmt.Fprintln(w)
 	json.NewEncoder(w).Encode(p.UserAgent)
-	fmt.Fprintln(w)
 	json.NewEncoder(w).Encode(p.RequestURI)
-	fmt.Fprintln(w)
 	json.NewEncoder(w).Encode(p.HeaderU)
-	fmt.Fprintln(w)
 	json.NewEncoder(w).Encode(p.HeaderA)
-	fmt.Fprintln(w)
 }
 
 func main() {
