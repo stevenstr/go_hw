@@ -44,19 +44,25 @@ var formNameAddrTmpl = []byte(`
 `)
 
 func handleMainPage(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodGet {
+
+	switch r.Method {
+	case http.MethodGet:
 		w.Write(formNameAddrTmpl)
-	} else if r.Method == http.MethodPost {
+		return
+
+	case http.MethodPost:
 		name := r.FormValue("name")
 		address := r.FormValue("address")
 		t := time.Now().Add(10 * time.Hour)
-
 		cookie := http.Cookie{Name: "token", Value: name + ":" + address, Expires: t}
 		http.SetCookie(w, &cookie)
 		w.Write(formNameAddrTmpl)
 		http.Redirect(w, r, "/", http.StatusFound)
-	} else {
+		return
+	default:
+		w.WriteHeader(http.StatusNotFound)
 		w.Write([]byte("Not found"))
+		return
 	}
 }
 
