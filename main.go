@@ -46,11 +46,12 @@ func jsonHandler(w http.ResponseWriter, r *http.Request) {
 	pp, err := json.Marshal(&p)
 	if err != nil {
 		log.Fatal(err)
+		//or
+		//panic(err)
 	}
 
 	w.WriteHeader(http.StatusOK)
 	w.Write(pp)
-
 }
 
 func main() {
