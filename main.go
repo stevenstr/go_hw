@@ -1,7 +1,7 @@
 /**
  *Author: Stefan
- *Date: 12/10/2019
- *Last changes: 12/11/2019 01.19
+ *Date: 12/12/2019
+ *Last changes: 12/11/2019 11.05
  *Task: Web server handling any request to it’s address and returning JSON like:
  */
 
@@ -10,6 +10,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"time"
 )
@@ -42,8 +43,14 @@ func jsonHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//pack for Write(interface)
-	pp, _ := json.Marshal(&p)
+	pp, err := json.Marshal(&p)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	w.WriteHeader(http.StatusOK)
 	w.Write(pp)
+
 }
 
 func main() {
