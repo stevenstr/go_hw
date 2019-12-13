@@ -1,7 +1,7 @@
 /**
  *Author: Stefan
  *Date: 12/12/2019
- *Last changes: 12/11/2019 11.05
+ *Last changes: 12/13/2019 15.05
  *Task: Web server handling any request to it’s address and returning JSON like:
  */
 
@@ -46,8 +46,9 @@ func jsonHandler(w http.ResponseWriter, r *http.Request) {
 	pp, err := json.Marshal(&p)
 	if err != nil {
 		log.Fatal(err)
-		//or
-		//panic(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+		return
 	}
 
 	w.WriteHeader(http.StatusOK)
