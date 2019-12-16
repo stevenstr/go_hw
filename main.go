@@ -1,7 +1,7 @@
 /**
  *Author: Stefan
  *Date: 12/02/2019
- *Last changes: 12/02/2019 19.20
+ *Last changes: 12/16/2019 21.25
  *Task: Get the code from https://pastebin.com/9HCGfz26
  *		● Run go vet, fix errors.
  *		● Repeat until all is fixed.
@@ -16,9 +16,8 @@ import (
 )
 
 //multiplyByTwo function
-func multiplyByTwo(k *int) error {
+func multiplyByTwo(k *int) {
 	*k *= 2
-	return nil
 }
 
 //printMoreTen function
@@ -41,7 +40,7 @@ func dejson() (jsStruct, error) {
 	in := []byte(`{"data": 13, "ok": true}`)
 	var out jsStruct
 	if err := json.Unmarshal(in, &out); err != nil { //https://golang.org/pkg/encoding/json/#Unmarshal
-		panic(err)
+		return jsStruct{}, err
 	}
 	return out, nil
 }
@@ -49,8 +48,8 @@ func dejson() (jsStruct, error) {
 func main() {
 	var r int = 11
 	multiplyByTwo(&r)
-	err := printMoreTen(r)
-	if err != nil {
+
+	if err := printMoreTen(r); err != nil {
 		panic(err)
 	}
 }
