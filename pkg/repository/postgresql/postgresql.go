@@ -6,7 +6,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/stevenstr/pkg/model"
+	"github.com/stevenstr/go_hw/pkg/model"
 )
 
 type PostgersContactsRepository struct {

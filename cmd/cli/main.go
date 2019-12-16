@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 
-	db "github.com/stevenstr/pkg/db"
-	"github.com/stevenstr/pkg/model"
-	repo "github.com/stevenstr/pkg/repository/postgresql"
+	db "github.com/stevenstr/go_hw/pkg/db"
+	"github.com/stevenstr/go_hw/pkg/model"
+	repo "github.com/stevenstr/go_hw/pkg/repository/postgresql"
 )
 
 const (
