@@ -6,6 +6,7 @@
  *		mongoDB or PostgreSQL
  * Links: http://www.postgresqltutorial.com/postgresql-serial/
  * 		  https://www.calhoun.io/connecting-to-a-postgresql-database-with-gos-database-sql-package/
+ * Megrate intro: https://github.com/golang-migrate/migrate/blob/master/database/postgres/TUTORIAL.md
  */
 
 package main
