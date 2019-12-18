@@ -4,6 +4,8 @@
  *Last changes: 12/18/2019 13.55
  *Task: Replace in memory implementation with implementation using
  *		mongoDB or PostgreSQL
+ * Links: http://www.postgresqltutorial.com/postgresql-serial/
+ * 		  https://www.calhoun.io/connecting-to-a-postgresql-database-with-gos-database-sql-package/
  */
 
 package main
