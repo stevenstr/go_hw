@@ -1,28 +1,38 @@
+/*
+ *Author: Stefan
+ *Date: 12/18/2019
+ *Last changes: 12/18/2019 13.55
+ *Task: Replace in memory implementation with implementation using
+ *		mongoDB or PostgreSQL
+ */
+
 package postgresql
 
 import (
 	"database/sql"
 	"fmt"
 	"strings"
-	"sync"
 
-	"github.com/stevenstr/go_hw/pkg/model"
+	"github.com/stevenstr/pkg/model"
 )
 
-type PostgersContactsRepository struct {
-	datab *sql.DB
+//ContactsRepositoryPostgreSQL type
+type ContactsRepositoryPostgreSQL struct {
+	db *sql.DB
 }
 
-func PostgresNewContactsRepository(db *sql.DB) *PostgersContactsRepository {
-	return &PostgersContactsRepository{
-		datab: db,
+//NewContactsRepositoryPostgreSQL function
+func NewContactsRepositoryPostgreSQL(db *sql.DB) *ContactsRepositoryPostgreSQL {
+	return &ContactsRepositoryPostgreSQL{
+		db: db,
 	}
 }
 
-func (r *PostgersContactsRepository) Save(contact model.Contact) (model.Contact, error) {
-	
-	query := "INSERT INTO contacts(firstname,lastname,phone,email) VALUES($1,$2,$3,$4) returning id;"
-	err := r.datab.QueryRow(query, contact.FirstName, contact.LastName, contact.Phone, contact.Email).Scan(&contact.ID)
+//Save method
+func (r *ContactsRepositoryPostgreSQL) Save(contact model.Contact) (model.Contact, error) {
+	query := "INSERT INTO contsct(first_name,last_name,phone,email) VALUES($1,$2,$3,$4) returning id;"
+
+	err := r.db.QueryRow(query, contact.FirstName, contact.LastName, contact.Phone, contact.Email).Scan(&contact.ID)
 
 	if err != nil {
 		if strings.Contains(err.Error(), "duplicate key value violates unique constraint \"contacts_phone_idx\"") {
@@ -33,17 +43,16 @@ func (r *PostgersContactsRepository) Save(contact model.Contact) (model.Contact,
 		}
 		return model.Contact{}, err
 	}
-
 	return contact, nil
 }
-func (r *PostgersContactsRepository) ListAll() (contacts []model.Contact, error) {
-	
-	query := "SELECT id, firstname, lastname, email, phone FROM contacts;"
-	
-	rows, err := r.datab.Query(query)
-	
+
+//ListAll method
+func (r *ContactsRepositoryPostgreSQL) ListAll() (users []model.Contact, err error) {
+	query := "SELECT id, first_name, last_name, email, phone FROM contsct;"
+	rows, err := r.db.Query(query)
+
 	if err != nil {
-		return contacts, err
+		return users, err
 	}
 
 	defer func() {
@@ -56,16 +65,32 @@ func (r *PostgersContactsRepository) ListAll() (contacts []model.Contact, error)
 		if err != nil {
 			return nil, err
 		}
-		contacts = append(contacts, contact)
+		users = append(users, contact)
 	}
-	return contacts, nil
+	return users, nil
 }
 
-func (r *PostgersContactsRepository) GetByID(id uint) (contact model.Contact, error) {
-	
-	query := "SELECT id, firstname, lastname, email, phone FROM contacts WHERE id = $1;"
-	
-	row := r.datab.QueryRow(query, id)
+//GetByID method
+func (r *ContactsRepositoryPostgreSQL) GetByID(id uint) (contact model.Contact, err error) {
+	query := "SELECT id, first_name, last_name, email, phone FROM contsct WHERE id = $1;"
+	row := r.db.QueryRow(query, id)
+
+	err = row.Scan(&contact.ID, &contact.FirstName, &contact.LastName, &contact.Email, &contact.Phone)
+
+	if err != nil {
+		if err != sql.ErrNoRows {
+			return model.Contact{}, err
+		}
+		return model.Contact{}, fmt.Errorf("record not found")
+	}
+	return contact, nil
+}
+
+//GetByPhone method
+func (r *ContactsRepositoryPostgreSQL) GetByPhone(phone string) (contact model.Contact, err error) {
+	query := "SELECT id, first_name, last_name, email, phone FROM contsct WHERE phone = $1;"
+	row := r.db.QueryRow(query, phone)
+
 	err = row.Scan(&contact.ID, &contact.FirstName, &contact.LastName, &contact.Email, &contact.Phone)
 
 	if err != nil {
@@ -78,46 +103,28 @@ func (r *PostgersContactsRepository) GetByID(id uint) (contact model.Contact, er
 	return contact, nil
 }
 
-func (r *PostgersContactsRepository) GetByPhone(phone string) (contact model.Contact, error) {
-	
-	query := "SELECT id, firstname, lastname, email, phone FROM contacts WHERE phone = $1;"
-	
-	row := r.datab.QueryRow(query, phone)
+//GetByEmail method
+func (r *ContactsRepositoryPostgreSQL) GetByEmail(email string) (contact model.Contact, err error) {
+	query := "SELECT id, first_name, last_name, email, phone FROM contsct WHERE email = $1;"
+	row := r.db.QueryRow(query, email)
+
 	err = row.Scan(&contact.ID, &contact.FirstName, &contact.LastName, &contact.Email, &contact.Phone)
 
-	if err != nil {
-		if err != sql.ErrNoRows {
-			return model.Contact{}, err
-		}
+	if err == sql.ErrNoRows {
 		return model.Contact{}, fmt.Errorf("record not found")
+	} else if err != nil {
+		return model.Contact{}, err
 	}
-
 	return contact, nil
 }
 
-func (r *PostgersContactsRepository) GetByEmail(email string) (conatact model.Contact, error) {
-	
-	query := "SELECT id, firstname, lastname, email, phone FROM contacts WHERE email = $1;"
-	
-	row := r.datab.QueryRow(query, email)
-	
-	err = row.Scan(&contact.ID, &contact.FirstName, &contact.LastName, &contact.Email, &contact.Phone)
+//SearchByName method
+func (r *ContactsRepositoryPostgreSQL) SearchByName(n string) (conresult []model.Contact, err error) {
+	query := "SELECT id, first_name, last_name, email, phone FROM contsct WHERE first_name = $1;"
+	rows, err := r.db.Query(query, n)
 
 	if err != nil {
-		if err != sql.ErrNoRows {
-			return model.Contact{}, err
-		}
-		return model.Contact{}, fmt.Errorf("record not found")
-	}
-
-	return contact, nil
-}
-
-func (r *PostgersContactsRepository) SearchByName(n string) (contacts []model.Contact, error) {
-	query := "SELECT id, firstname, lastname, email, phone FROM contacts WHERE firstname = $1;"
-	rows, err := r.datab.Query(query, n)
-	if err != nil {
-		return contacts, err
+		return conresult, err
 	}
 
 	defer func() {
@@ -130,17 +137,15 @@ func (r *PostgersContactsRepository) SearchByName(n string) (contacts []model.Co
 		if err != nil {
 			return nil, err
 		}
-		contacts = append(contacts, contact)
+		conresult = append(conresult, contact)
 	}
-
-	return contacts, nil
+	return conresult, nil
 }
 
-func (r *PostgersContactsRepository) Delete(id uint) error {
-	
-	query := "DELETE FROM contacts WHERE id = $1;"
-	
-	_, err := r.databb.Exec(query, id)
+//Delete method
+func (r *ContactsRepositoryPostgreSQL) Delete(id uint) error {
+	query := "DELETE FROM contsct WHERE id = $1;"
+	_, err := r.db.Exec(query, id)
 	if err != nil {
 		return err
 	}

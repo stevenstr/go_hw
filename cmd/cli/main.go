@@ -1,12 +1,23 @@
+/*
+ *Author: Stefan
+ *Date: 12/18/2019
+ *Last changes: 12/18/2019 13.55
+ *Task: Replace in memory implementation with implementation using
+ *		mongoDB or PostgreSQL
+ */
+
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 
-	db "github.com/stevenstr/go_hw/pkg/db"
-	"github.com/stevenstr/go_hw/pkg/model"
-	repo "github.com/stevenstr/go_hw/pkg/repository/postgresql"
+	"github.com/stevenstr/pkg/model"
+	pos "github.com/stevenstr/pkg/repository/postgresql"
+
+	//driver
+	_ "github.com/lib/pq"
 )
 
 const (
@@ -29,15 +40,26 @@ const (
 
 func main() {
 
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable",
+	//connector to db using manual : https://www.calhoun.io/connecting-to-a-postgresql-database-with-gos-database-sql-package/
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+		"password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)
-
-	conn, err := db.DBConnectDB(*psqlInfo)
+	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
+	}
+	defer db.Close()
+
+	err = db.Ping()
+	if err != nil {
+		panic(err)
 	}
 
-	repository := repo.NewContactsRepositoryPostgreSQL(conn)
+	fmt.Println("Successfully connected!")
+	fmt.Println("Successfully connected!")
+
+	//
+	repository := pos.NewContactsRepositoryPostgreSQL(db)
 
 	for {
 		fmt.Print(menu)
@@ -47,6 +69,7 @@ func main() {
 		}
 
 		switch command {
+
 		case CommandSave:
 			if err := Save(repository); err != nil {
 				log.Println(err)
@@ -76,13 +99,14 @@ func main() {
 				log.Println(err)
 			}
 		default:
-			log.Printf("command not foumd for value %d\n", command)
+			log.Printf("HZ %d\n", command)
 		}
 
 		printSeparator()
 	}
 }
 
+//ListAll function
 func ListAll(rep model.ContactsRepository) error {
 	records, err := rep.ListAll()
 	if err != nil {
@@ -97,6 +121,7 @@ func ListAll(rep model.ContactsRepository) error {
 	return nil
 }
 
+//GetByID function
 func GetByID(rep model.ContactsRepository) error {
 	id := readUint("Please enter an 'ID' field and press Enter")
 
@@ -111,6 +136,7 @@ func GetByID(rep model.ContactsRepository) error {
 	return nil
 }
 
+//GetByPhone function
 func GetByPhone(rep model.ContactsRepository) error {
 	phone := readString("Please enter an 'Phone' field and press Enter")
 
@@ -125,6 +151,7 @@ func GetByPhone(rep model.ContactsRepository) error {
 	return nil
 }
 
+//GetByEmail function
 func GetByEmail(rep model.ContactsRepository) error {
 	email := readString("Please enter an 'Email' field and press Enter")
 
@@ -139,6 +166,7 @@ func GetByEmail(rep model.ContactsRepository) error {
 	return nil
 }
 
+//SearchByName function
 func SearchByName(rep model.ContactsRepository) error {
 	email := readString("Please enter prefix for 'Name' field and press Enter")
 
@@ -155,6 +183,7 @@ func SearchByName(rep model.ContactsRepository) error {
 	return nil
 }
 
+//Delete function
 func Delete(rep model.ContactsRepository) error {
 	id := readUint("Please enter an 'ID' field and press Enter")
 
@@ -166,6 +195,7 @@ func Delete(rep model.ContactsRepository) error {
 	return nil
 }
 
+//Save function
 func Save(rep model.ContactsRepository) error {
 	contact := model.Contact{
 		FirstName: readString("Please enter an 'FirstName' field and press Enter"),
@@ -186,6 +216,7 @@ func Save(rep model.ContactsRepository) error {
 	return nil
 }
 
+//Just simple menu
 const menu = `
 Please enter operation number:
   * 1 - Save
@@ -198,6 +229,7 @@ Please enter operation number:
   * Control + C - to exit 
 `
 
+//readStriing function
 func readString(message string) string {
 	var r string
 
@@ -209,10 +241,10 @@ func readString(message string) string {
 		}
 
 	}
-
 	return r
 }
 
+//readInt function
 func readUint(message string) uint {
 	var r uint
 
@@ -226,10 +258,10 @@ func readUint(message string) uint {
 		fmt.Printf("Error in process of reading string from console\n\t%q\n please try again\n", err.Error())
 		printSeparator()
 	}
-
 	return r
 }
 
+//printSeparator function
 func printSeparator() {
 	for i := 0; i < 50; i++ {
 		fmt.Print("*")

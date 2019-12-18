@@ -2,6 +2,7 @@ package model
 
 import "fmt"
 
+//ContactsRepository type
 type ContactsRepository interface {
 	Save(Contact) (Contact, error)
 	ListAll() ([]Contact, error)
@@ -12,6 +13,7 @@ type ContactsRepository interface {
 	Delete(uint) error
 }
 
+//Contact type
 type Contact struct {
 	ID uint `json:"id"`
 
@@ -22,6 +24,7 @@ type Contact struct {
 	Email string `json:"email"`
 }
 
+//String method
 func (c Contact) String() string {
 	return fmt.Sprintf("Contact:\n\tID - %d\n\tFirst Name - %q\n\tLast Name - %q\n\tPhone - %q\n\tEmail - %q\n", c.ID, c.FirstName, c.LastName, c.Phone, c.Email)
 }
